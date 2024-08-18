@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保密！</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .card {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1;
+        }
+        h1 {
+            color: #ff6b6b;
+        }
+        p {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .heart {
+            color: #ff6b6b;
+            font-size: 2em;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .surprise {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        #stars, #hearts, #confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background-color: #ffeb3b;
+            border-radius: 50%;
+            animation: twinkle 1.5s infinite ease-in-out;
+        }
+        .heart-float {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 2em;
+            animation: floatUp 2s ease-in-out forwards;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes floatUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-200px); opacity: 0; }
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 16px;
+            background-color: #ff6b6b;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100%); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>祝愿女大王早日和生病说拜拜！</h1>
+        <p>—你的狗狗T 🐶</p>
+        <div class="heart">❤️</div>
+        <button class="surprise" onclick="showSurprise()">准备好就点我</button>
+        <p id="message"></p>
+    </div>
+    <div id="stars"></div>
+    <div id="hearts"></div>
+    <div id="confetti"></div>
+
+    <!-- Adding audio element -->
+    <audio id="background-music" src="bgm.mp3" loop></audio>
+
+    <script>
+        function showSurprise() {
+            document.getElementById('message').innerText = '发射很多美好祝福给你 biu~ 🌟';
+            createStars();
+            createHearts();
+            createConfetti();
+            playMusic();
+        }
+
+        function createStars() {
+            const capitalX = window.innerWidth;
+            const capitalY = window.innerHeight;
+            const numStars = 50;
+
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                document.getElementById('stars').appendChild(star);
+
+                const size = Math.random() * 7 + 2 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = Math.random() * capitalX + 'px';
+                star.style.top = Math.random() * capitalY + 'px';
+
+                star.style.animationDuration = Math.random() * 2 + 1.5 + 's';
+                star.style.animationDelay = Math.random() * 2 + 's';
+            }
+        }
+
+        function createHearts() {
+            const capitalX = window.innerWidth;
+            const numHearts = 20;
+
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-float');
+                heart.innerText = '❤️';
+                document.getElementById('hearts').appendChild(heart);
+
+                const size = Math.random() * 20 + 10 + 'px';
+                heart.style.fontSize = size;
+                heart.style.left = Math.random() * capitalX + 'px';
+                heart.style.bottom = '0';
+
+                heart.style.animationDelay = Math.random() * 2 + 's';
+            }
+        }
+
+        function createConfetti() {
+            const capitalX = window.innerWidth;
+            const numConfetti = 50;
+            const colors = ['#ff6b6b', '#feca57', '#1dd1a1', '#5f27cd'];
+
+            for (let i = 0; i < numConfetti; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                document.getElementById('confetti').appendChild(confetti);
+
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * capitalX + 'px';
+                confetti.style.top = Math.random() * -200 + 'px';
+
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 1.5 + 's';
+            }
+        }
+
+        function playMusic() {
+            const music = document.getElementById('background-music');
+            music.play();
+        }
+
+        // Create stars immediately on page load
+        window.onload = createStars;
+    </script>
+</body>
+</html>
